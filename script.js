@@ -114,15 +114,16 @@ function flipVertically(){
   transformImage();
 }
 
-function transformImage(){
-    imageSelected.style.transform = `rotate(${angle}deg) scaleX(${isFlippedX? -1:1}) scaleY(${isFlippedY? -1:1})`
-}
-
 function rotatePicture(value)
 {
   document.querySelector('.rotate-value').innerHTML = `${value}&deg;`;
   imageSelected.style.transform =`rotate(${value}deg)`;
 }
+
+function transformImage(){
+    imageSelected.style.transform = `rotate(${angle}deg) scaleX(${isFlippedX? -1:1}) scaleY(${isFlippedY? -1:1})`
+}
+
 
 function reset(){
   filters.brightness=100;
@@ -155,42 +156,35 @@ function reset(){
 
 
 function saveImage(){
-    // Create a canvas element
-    const canvas = document.createElement('canvas');
-    const ctx = canvas.getContext('2d');
-  
-    // Set canvas dimensions to match the image
-    const img = document.getElementById('image');
-    canvas.width = img.naturalWidth;
-    canvas.height = img.naturalHeight;
-  
-    // Apply current filters and transformations to the canvas
-    ctx.filter = `
-      brightness(${filters.brightness}%)
-      saturate(${filters.saturate}%)
-      invert(${filters.invert}%)
-      grayscale(${filters.grayscale}%)
-      sepia(${filters.sepia}%)
-      blur(${filters.blur}px)
-    `;
-  
-    // Apply transformations (rotate, flip)
-    ctx.translate(canvas.width / 2, canvas.height / 2);
-    ctx.rotate((angle * Math.PI) / 180);
-    ctx.scale(isFlippedX ? -1 : 1, isFlippedY ? -1 : 1);
-    ctx.translate(-canvas.width / 2, -canvas.height / 2);
-  
-    // Draw the image on the canvas
-    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-  
-    // Convert the canvas to a data URL
-    const dataURL = canvas.toDataURL('image/png');
-  
-    // Create a temporary link element to trigger the download
-    const link = document.createElement('a');
-    link.href = dataURL;
-    link.download = 'edited-image.png'; // Set the filename for the downloaded image
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+  const canvas = document.getElementById('canvas');
+  const ctx = canvas.getContext('2d');
+
+  canvas.width = imageSelected.width;
+  canvas.height = imageSelected.height;
+
+  ctx.filter = `
+    brightness(${filters.brightness}%)
+    saturate(${filters.saturate}%)
+    invert(${filters.invert}%)
+    grayscale(${filters.grayscale}%)
+    sepia(${filters.sepia}%)
+    blur(${filters.blur}px)
+  `;
+
+  ctx.translate(canvas.width /2 , canvas.height /2);
+  ctx.rotate(angle * Math.PI / 180);
+  ctx.scale(isFlippedX ? -1 : 1, isFlippedY ? -1 : 1);
+  ctx.translate(-canvas.width / 2, -canvas.height / 2);
+
+  ctx.drawImage(imageSelected, 0, 0, canvas.width, canvas.height);
+
+  const dataURL = canvas.toDataURL('image/png');
+
+  const link = document.createElement('a');
+  link.href = dataURL;
+  link.download = 'edited-image.png';
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+
 }
