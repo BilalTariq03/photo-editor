@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<!-- Coding By CodingNepal - youtube.com/codingnepal -->
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Image Editor JavaScript | CodingNepal</title>
+    <link rel="stylesheet" href="style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"/>
+  </head>
+  <body>
+    <div class="container ">
+        <h2> Photo Editor</h2>
+        <div class="wrapper">
+            <div class="editor-panel">
+                <div class="filter">
+                    <label class="title">Filters</label>
+                    <div class="options">
+                        <button id="Brightness" class = "is-toggled" input onclick ="toggle('Brightness')"> 
+                            Brightness 
+                        </button>
+                        <button id="Saturation" input onclick ="toggle('Saturation')">
+                            Saturation
+                        </button>
+                        <button id="Inversion" input onclick ="toggle('Inversion')">
+                            Inversion
+                        </button>
+                        <button id="Grayscale" input onclick ="toggle('Grayscale')">
+                            Grayscale
+                        </button>
+                        <button id="Sepia" input onclick ="toggle('Sepia')">
+                            Sepia
+                        </button>
+                        <button id="Blur" input onclick ="toggle('Blur')">
+                            Blur
+                        </button>
+                    </div>
+                    <div class="slider">
+                        <div class="filter-info">
+                            <p class="name">Brightness</p>
+                            <p class="value">100%</p>
+                        </div>
+                        <input class="js-range-bar" type="range" value="100" min="0" max="200" oninput="applyFilter(value)">
+                    </div>
+                </div>
+                <div class="rotate">
+                    <label class="title">Rotate & Flip</label>
+                    <div class="options">
+                        <button id="left" onclick="rotateImage(-90)"><i class="fa-solid fa-rotate-left"></i></button>
+                        <button id="right" onclick="rotateImage(90)"><i class="fa-solid fa-rotate-right"></i></button>
+                        <button id="horizontal" onclick=" flipHorizontally()"><i class='bx bx-reflect-vertical'></i></button>
+                        <button id="vertical" onclick="flipVertically()"><i class='bx bx-reflect-horizontal' ></i></button>
+                    </div>
+                    <div class="slider">
+                        <div class="filter-info">
+                            <p class="name">Rotate</p>
+                            <p class="rotate-value">0&deg;</p>
+                        </div>
+                        <input class="js-rotate-bar" type="range" value="0" min="0" max="360" oninput="rotatePicture(this.value)">
+                    </div> 
+                </div>
+            </div>
+            <div class="preview-img">
+                <img src="image-placeholder.svg" alt="preview-img" id="image">
+            </div>
+        </div>
+        <div class="controls">
+            <button class="reset-filter" onclick="reset()">Reset Filters</button>
+            <div class="row">
+                <input type="file" class="file-input" accept="image/*" hidden>
+                <button class="choose-img">Choose Image</button>
+                <button class="save-img" onclick="saveImage()">Save Image</button>
+            </div>
+        </div>
+    </div>
+
+    <canvas id="canvas" hidden></canvas>
+
+    <script src="script.js"></script>
+  </body>
+</html>
